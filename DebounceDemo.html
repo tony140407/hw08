@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <style>
+    #app {
+      height: 100vh;
+    }
+  </style>
+  <body>
+    <div id="app" class="d-flex align-items-center">
+      <section class="container">
+        <h1 class="text-center mb-5">FindItem</h1>
+
+        <div class="input-group mb-4">
+          <input
+            type="text"
+            class="form-control findInput"
+            placeholder="加了 debounce，文字變動後尋找相符事項"
+            aria-describedby="basic-addon2"
+          />
+          <span class="input-group-text" id="basic-addon2">search</span>
+        </div>
+        <ul class="list-group mb-5">
+          <li class="list-group-item">An active item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+          <li class="list-group-item">A fourth item</li>
+          <li class="list-group-item">And a fifth one</li>
+        </ul>
+      </section>
+    </div>
+    <script>
+      const findInput = document.querySelector('.findInput');
+      const listItems = document.querySelectorAll('.list-group-item');
+
+      findInput.addEventListener('keyup', debounce(findMatchItem, 1000));
+      function findMatchItem() {
+        if (findInput.value === '') return;
+        listItems.forEach((eachItem) => {
+          if (eachItem.textContent.includes(findInput.value)) {
+            eachItem.classList.add('active');
+          } else {
+            eachItem.classList.remove('active');
+          }
+        });
+      }
+
+      function debounce(fn, delay) {
+        var timer = null;
+        return function () {
+          var context = this;
+          var args = arguments;
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            fn.apply(context, args);
+          }, delay);
+        };
+      }
+    </script>
+  </body>
+</html>
